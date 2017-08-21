@@ -21,16 +21,20 @@ namespace Toggl.Foundation.Tests.MvvmCross.ViewModels
         public class TimeEntriesLogViewModelTest : BaseViewModelTests<TimeEntriesLogViewModel>
         {
             protected override TimeEntriesLogViewModel CreateViewModel()
-                => new TimeEntriesLogViewModel(DataSource);
+            => new TimeEntriesLogViewModel(DataSource, NavigationService);
         }
 
         public class TheConstructor : TimeEntriesLogViewModelTest
         {
-            [Fact]
-            public void ThrowsIfTheArgumentIsNull()
+            [Theory]
+            [ClassData(typeof(TwoParameterConstructorTestData))]
+            public void ThrowsIfTheArgumentIsNull(bool useDataSource, bool useNavigationService)
             {
+                var dataSource = useDataSource ? DataSource : null;
+                var navigationService = useNavigationService ? NavigationService : null;
+
                 Action tryingToConstructWithEmptyParameters =
-                    () => new TimeEntriesLogViewModel(null);
+                    () => new TimeEntriesLogViewModel(dataSource, navigationService);
 
                 tryingToConstructWithEmptyParameters
                     .ShouldThrow<ArgumentNullException>();
