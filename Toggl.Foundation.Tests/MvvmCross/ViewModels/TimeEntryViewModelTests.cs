@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
+using System.Threading.Tasks;
 using FluentAssertions;
 using NSubstitute;
+using Toggl.Foundation.MvvmCross.Parameters;
 using Toggl.Foundation.MvvmCross.ViewModels;
 using Toggl.Foundation.Tests.Generators;
 using Toggl.PrimeRadiant.Models;
@@ -58,6 +60,20 @@ namespace Toggl.Foundation.Tests.MvvmCross.ViewModels
                 var viewModel = new TimeEntryViewModel(MockTimeEntry, NavigationService);
 
                 viewModel.HasProject.Should().Be(hasProject);
+            }
+        }
+
+        public class TheEditCommand : TimeEntryViewModelTest
+        {
+            [Fact]
+            public async Task NavigatesToTheEditTimeEntryView()
+            {
+                MockTimeEntry.Stop.Returns(DateTimeOffset.Now);
+                var viewModel = new TimeEntryViewModel(MockTimeEntry, NavigationService);
+
+                await viewModel.EditCommand.ExecuteAsync(IdParameter.WithId(MockTimeEntry.Id));
+
+                await NavigationService.Received().Navigate<EditTimeEntryViewModel, IdParameter>(Arg.Is<IdParameter>(p => p.Id == MockTimeEntry.Id));
             }
         }
     }
