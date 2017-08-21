@@ -10,6 +10,7 @@ using Toggl.Foundation.DataSources;
 using Toggl.Multivac;
 using Toggl.Multivac.Extensions;
 using Toggl.PrimeRadiant.Models;
+using MvvmCross.Core.Navigation;
 
 namespace Toggl.Foundation.MvvmCross.ViewModels
 {
@@ -19,6 +20,7 @@ namespace Toggl.Foundation.MvvmCross.ViewModels
         private IDisposable updateDisposable;
 
         private readonly ITogglDataSource dataSource;
+        private readonly IMvxNavigationService navigationService;
 
         public bool IsWelcome { get; set; }
 
@@ -40,11 +42,13 @@ namespace Toggl.Foundation.MvvmCross.ViewModels
             ? Resources.TimeEntriesLogEmptyStateWelcomeText
             : Resources.TimeEntriesLogEmptyStateText;
 
-        public TimeEntriesLogViewModel(ITogglDataSource dataSource)
+        public TimeEntriesLogViewModel(ITogglDataSource dataSource, IMvxNavigationService navigationService)
         {
             Ensure.Argument.IsNotNull(dataSource, nameof(dataSource));
+            Ensure.Argument.IsNotNull(navigationService, nameof(navigationService));
 
             this.dataSource = dataSource;
+            this.navigationService = navigationService;
         }
 
         public async override Task Initialize()
@@ -52,11 +56,11 @@ namespace Toggl.Foundation.MvvmCross.ViewModels
             await base.Initialize();
 
             var timeEntries = await dataSource.TimeEntries.GetAll();
-
+            
             timeEntries
                 .Where(isNotRunning)
                 .OrderByDescending(te => te.Start)
-                .Select(te => new TimeEntryViewModel(te))
+                .Select(te => new TimeEntryViewModel(te, navigationService))
                 .GroupBy(te => te.Start.Date)
                 .Select(grouping => new TimeEntryViewModelCollection(grouping.Key, grouping))
                 .ForEach(TimeEntries.Add);
@@ -87,7 +91,7 @@ namespace Toggl.Foundation.MvvmCross.ViewModels
         private void onTimeEntryCreated(IDatabaseTimeEntry timeEntry)
         {
             var indexDate = timeEntry.Start.Date;
-            var timeEntriesInDay = new List<TimeEntryViewModel> { new TimeEntryViewModel(timeEntry) };
+            var timeEntriesInDay = new List<TimeEntryViewModel> { new TimeEntryViewModel(timeEntry, navigationService) };
 
             var collection = TimeEntries.FirstOrDefault(x => x.Date == indexDate);
             if (collection != null)
