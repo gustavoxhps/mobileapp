@@ -56,7 +56,7 @@ namespace Toggl.Foundation.MvvmCross.ViewModels
             await base.Initialize();
 
             var timeEntries = await dataSource.TimeEntries.GetAll();
-            
+
             timeEntries
                 .Where(isNotRunning)
                 .OrderByDescending(te => te.Start)
