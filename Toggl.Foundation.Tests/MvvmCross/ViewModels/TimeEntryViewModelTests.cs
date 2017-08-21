@@ -4,6 +4,7 @@ using System.Reactive.Subjects;
 using FluentAssertions;
 using NSubstitute;
 using Toggl.Foundation.MvvmCross.ViewModels;
+using Toggl.Foundation.Tests.Generators;
 using Toggl.PrimeRadiant.Models;
 using Xunit;
 
@@ -29,11 +30,15 @@ namespace Toggl.Foundation.Tests.MvvmCross.ViewModels
 
         public class TheConstructor : TimeEntryViewModelTest
         {
-            [Fact]
-            public void ThrowsIfTheArgumentIsNull()
+            [Theory]
+            [ClassData(typeof(TwoParameterConstructorTestData))]
+            public void ThrowsIfAnyOfTheTheArgumentsIsNull(bool useTimeEntry, bool useNavigationService)
             {
+                var timeEntry = useTimeEntry ? MockTimeEntry : null;
+                var navigationService = useNavigationService ? NavigationService : null;
+
                 Action tryingToConstructWithEmptyParameters =
-                    () => new TimeEntryViewModel(null);
+                    () => new TimeEntryViewModel(timeEntry, navigationService);
 
                 tryingToConstructWithEmptyParameters
                     .ShouldThrow<ArgumentNullException>();
@@ -50,7 +55,7 @@ namespace Toggl.Foundation.Tests.MvvmCross.ViewModels
                 MockTimeEntry.Stop.Returns(DateTimeOffset.UtcNow);
                 MockTimeEntry.Project.Returns(hasProject ? Project : null);
 
-                var viewModel = new TimeEntryViewModel(MockTimeEntry);
+                var viewModel = new TimeEntryViewModel(MockTimeEntry, NavigationService);
 
                 viewModel.HasProject.Should().Be(hasProject);
             }
