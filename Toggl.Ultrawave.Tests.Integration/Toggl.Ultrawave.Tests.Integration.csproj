@@ -163,8 +163,8 @@
     <Compile Include="Helper\AuthorizedRequestBuilder.cs" />
     <Compile Include="TagsApiTests.cs" />
     <Compile Include="LogTestInfoAttribute.cs" />
-    <Compile Include="Configuration.cs" />
-    <Compile Include="Credentials.cs" />
+    <Compile Include="Helper\Configuration.cs" />
+    <Compile Include="Helper\Credentials.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Toggl.Ultrawave\Toggl.Ultrawave.csproj">
