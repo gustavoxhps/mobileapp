@@ -92,11 +92,6 @@ namespace Toggl.Daneel.Views
                           .To(vm => vm.HasProject)
                           .WithConversion(visibilityConverter);
 
-                //Commands
-                bindingSet.Bind(this)
-                          .For(v => v.BindTap())
-                          .To(vm => vm.EditCommand);
-
                 bindingSet.Apply();
             });
         }

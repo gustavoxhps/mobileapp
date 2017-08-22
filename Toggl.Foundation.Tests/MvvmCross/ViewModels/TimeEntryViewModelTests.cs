@@ -32,15 +32,11 @@ namespace Toggl.Foundation.Tests.MvvmCross.ViewModels
 
         public class TheConstructor : TimeEntryViewModelTest
         {
-            [Theory]
-            [ClassData(typeof(TwoParameterConstructorTestData))]
-            public void ThrowsIfAnyOfTheTheArgumentsIsNull(bool useTimeEntry, bool useNavigationService)
+            [Fact]
+            public void ThrowsIfTheArgumentIsNull()
             {
-                var timeEntry = useTimeEntry ? MockTimeEntry : null;
-                var navigationService = useNavigationService ? NavigationService : null;
-
                 Action tryingToConstructWithEmptyParameters =
-                    () => new TimeEntryViewModel(timeEntry, navigationService);
+                    () => new TimeEntryViewModel(null);
 
                 tryingToConstructWithEmptyParameters
                     .ShouldThrow<ArgumentNullException>();
@@ -57,23 +53,9 @@ namespace Toggl.Foundation.Tests.MvvmCross.ViewModels
                 MockTimeEntry.Stop.Returns(DateTimeOffset.UtcNow);
                 MockTimeEntry.Project.Returns(hasProject ? Project : null);
 
-                var viewModel = new TimeEntryViewModel(MockTimeEntry, NavigationService);
+                var viewModel = new TimeEntryViewModel(MockTimeEntry);
 
                 viewModel.HasProject.Should().Be(hasProject);
-            }
-        }
-
-        public class TheEditCommand : TimeEntryViewModelTest
-        {
-            [Fact]
-            public async Task NavigatesToTheEditTimeEntryView()
-            {
-                MockTimeEntry.Stop.Returns(DateTimeOffset.Now);
-                var viewModel = new TimeEntryViewModel(MockTimeEntry, NavigationService);
-
-                await viewModel.EditCommand.ExecuteAsync(IdParameter.WithId(MockTimeEntry.Id));
-
-                await NavigationService.Received().Navigate<EditTimeEntryViewModel, IdParameter>(Arg.Is<IdParameter>(p => p.Id == MockTimeEntry.Id));
             }
         }
     }

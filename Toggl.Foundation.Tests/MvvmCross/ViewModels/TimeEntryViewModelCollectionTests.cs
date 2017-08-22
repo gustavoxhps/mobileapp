@@ -35,7 +35,7 @@ namespace Toggl.Foundation.Tests.MvvmCross.ViewModels
                         timeEntry.Stop.Returns(Noon.AddHours(-i));
                         timeEntry.Start.Returns(Noon.AddHours(-i - 1));
                         return timeEntry;
-                    }).Select(te => new TimeEntryViewModel(te, NavigationService)).GroupBy(x => x.Start.Date).Single()
+                    }).Select(te => new TimeEntryViewModel(te)).GroupBy(x => x.Start.Date).Single()
                 );
             }
         }
