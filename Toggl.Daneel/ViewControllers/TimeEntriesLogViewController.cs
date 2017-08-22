@@ -62,6 +62,11 @@ namespace Toggl.Daneel.ViewControllers
                       .To(vm => vm.IsEmpty)
                       .WithConversion(invertedVisibilityConverter);
 
+            //Commands
+            bindingSet.Bind(source)
+                      .For(s => s.SelectionChangedCommand)
+                      .To(vm => vm.EditCommand);
+
             bindingSet.Apply();
         }
     }
