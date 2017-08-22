@@ -53,7 +53,7 @@ private string GetCommitHash()
     return redirectedOutput.Last();
 }
 
-private TemporaryFileTransformation GetIntegrationTestsFileTransformation()
+private TemporaryFileTransformation GetIntegrationTestsConfigurationTransformation()
 {   
     const string path = "Toggl.Ultrawave.Tests.Integration/Configuration.cs";
     var commitHash = GetCommitHash(); 
@@ -84,10 +84,28 @@ private TemporaryFileTransformation GetUITestsFileTransformation()
     };
 }
 
+private TemporaryFileTransformation GetIntegrationTestsCredentialsTransformation()
+{
+    const string path = "Toggl.Ultrawave.Tests.Integration/Credentials.cs";
+    var starterUsername = EnvironmentVariable("TOGGL_INTEGRATION_TEST_STARTER_USERNAME");
+    var starterPassword = EnvironmentVariable("TOGGL_INTEGRATION_TEST_STARTER_PASSWORD");
+    var filePath = GetFiles(path).Single();
+    var file = TransformTextFile(filePath).ToString();
+
+    return new TemporaryFileTransformation
+    {
+        Path = path,
+        Original = file,
+        Temporary = file.Replace("{TOGGL_INTEGRATION_TEST_STARTER_USERNAME}", starterUsername)
+                        .Replace("{TOGGL_INTEGRATION_TEST_STARTER_PASSWORD}", starterPassword)
+    };
+}
+
 var transformations = new List<TemporaryFileTransformation> 
-{ 
-    GetIntegrationTestsFileTransformation(),
-    GetUITestsFileTransformation()
+{
+    GetIntegrationTestsConfigurationTransformation(),
+    GetUITestsFileTransformation(),
+    GetIntegrationTestsCredentialsTransformation()
 };
 
 Setup(context => transformations.ForEach(transformation => System.IO.File.WriteAllText(transformation.Path, transformation.Temporary)));
