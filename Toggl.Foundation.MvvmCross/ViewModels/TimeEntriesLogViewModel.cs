@@ -11,6 +11,7 @@ using Toggl.Multivac;
 using Toggl.Multivac.Extensions;
 using Toggl.PrimeRadiant.Models;
 using MvvmCross.Core.Navigation;
+using Toggl.Foundation.MvvmCross.Parameters;
 
 namespace Toggl.Foundation.MvvmCross.ViewModels
 {
@@ -42,6 +43,8 @@ namespace Toggl.Foundation.MvvmCross.ViewModels
             ? Resources.TimeEntriesLogEmptyStateWelcomeText
             : Resources.TimeEntriesLogEmptyStateText;
 
+        public MvxAsyncCommand<TimeEntryViewModel> EditCommand { get; }
+
         public TimeEntriesLogViewModel(ITogglDataSource dataSource, IMvxNavigationService navigationService)
         {
             Ensure.Argument.IsNotNull(dataSource, nameof(dataSource));
@@ -49,6 +52,8 @@ namespace Toggl.Foundation.MvvmCross.ViewModels
 
             this.dataSource = dataSource;
             this.navigationService = navigationService;
+
+            EditCommand = new MvxAsyncCommand<TimeEntryViewModel>(edit);
         }
 
         public async override Task Initialize()
@@ -108,5 +113,8 @@ namespace Toggl.Foundation.MvvmCross.ViewModels
         }
 
         private bool isNotRunning(IDatabaseTimeEntry timeEntry) => timeEntry.Stop != null;
+
+        private Task edit(TimeEntryViewModel timeEntryViewModel)
+            => navigationService.Navigate<EditTimeEntryViewModel, IdParameter>(IdParameter.WithId(timeEntryViewModel.Id));
     }
 }
