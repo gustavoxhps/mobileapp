@@ -1,5 +1,4 @@
 ﻿using System;
-using MvvmCross.Core.Navigation;
 using MvvmCross.Core.ViewModels;
 using Toggl.Multivac;
 using Toggl.PrimeRadiant.Models;
@@ -8,8 +7,6 @@ namespace Toggl.Foundation.MvvmCross.ViewModels
 {
     public class TimeEntryViewModel : MvxNotifyPropertyChanged
     {
-        private readonly IMvxNavigationService navigationService;
-
         public long Id { get; }
 
         public string Description { get; } = "";
