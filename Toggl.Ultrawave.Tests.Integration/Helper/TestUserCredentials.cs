@@ -4,8 +4,8 @@ namespace Toggl.Ultrawave.Tests.Integration.Helper
     {
         public static class Starter
         {
-            public const string Username = "arturseimanis@gm,ail.com";
-            public const string Password = "test123456";
+            public const string Username = "{TOGGL_UI_TEST_USERNAME}";
+            public const string Password = "{TOGGL_UI_TEST_PASSWORD}";
         }
     }
 }
