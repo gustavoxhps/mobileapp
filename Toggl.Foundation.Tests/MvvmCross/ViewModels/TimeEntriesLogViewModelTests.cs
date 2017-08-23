@@ -22,7 +22,7 @@ namespace Toggl.Foundation.Tests.MvvmCross.ViewModels
         public class TimeEntriesLogViewModelTest : BaseViewModelTests<TimeEntriesLogViewModel>
         {
             protected override TimeEntriesLogViewModel CreateViewModel()
-            => new TimeEntriesLogViewModel(DataSource, NavigationService);
+                => new TimeEntriesLogViewModel(DataSource, NavigationService);
         }
 
         public class TheConstructor : TimeEntriesLogViewModelTest
