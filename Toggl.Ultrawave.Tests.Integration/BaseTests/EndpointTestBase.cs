@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Toggl.Multivac.Models;
 using Toggl.Ultrawave.Network;
 using Toggl.Ultrawave.Tests.Integration.Helper;
-using NetworkCredentials = Toggl.Ultrawave.Network.Credentials;
 
 namespace Toggl.Ultrawave.Tests.Integration.BaseTests
 {
@@ -18,10 +17,10 @@ namespace Toggl.Ultrawave.Tests.Integration.BaseTests
             return (togglApi, user);
         }
 
-        protected ITogglApi TogglApiWith(NetworkCredentials credentials)
+        protected ITogglApi TogglApiWith(Credentials credentials)
             => new TogglApi(configurationFor(credentials));
 
-        private ApiConfiguration configurationFor(NetworkCredentials credentials)
+        private ApiConfiguration configurationFor(Credentials credentials)
             => new ApiConfiguration(ApiEnvironment.Staging, credentials, Configuration.UserAgent);
     }
 }

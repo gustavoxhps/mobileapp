@@ -164,7 +164,7 @@
     <Compile Include="TagsApiTests.cs" />
     <Compile Include="LogTestInfoAttribute.cs" />
     <Compile Include="Helper\Configuration.cs" />
-    <Compile Include="Helper\Credentials.cs" />
+    <Compile Include="Helper\TestUserCredentials.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Toggl.Ultrawave\Toggl.Ultrawave.csproj">

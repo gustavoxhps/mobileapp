@@ -86,7 +86,7 @@ private TemporaryFileTransformation GetUITestsFileTransformation()
 
 private TemporaryFileTransformation GetIntegrationTestsCredentialsTransformation()
 {
-    const string path = "Toggl.Ultrawave.Tests.Integration/Helper/Credentials.cs";
+    const string path = "Toggl.Ultrawave.Tests.Integration/Helper/TestUserCredentials.cs";
     var starterUsername = EnvironmentVariable("TOGGL_INTEGRATION_TEST_STARTER_USERNAME");
     var starterPassword = EnvironmentVariable("TOGGL_INTEGRATION_TEST_STARTER_PASSWORD");
     var filePath = GetFiles(path).Single();

@@ -7,7 +7,6 @@ using Toggl.Multivac.Models;
 using Toggl.Ultrawave.Models;
 using Toggl.Ultrawave.Network;
 using Toggl.Ultrawave.Serialization;
-using NetworkCredentials = Toggl.Ultrawave.Network.Credentials;
 
 namespace Toggl.Ultrawave.Tests.Integration.Helper
 {
@@ -21,7 +20,7 @@ namespace Toggl.Ultrawave.Tests.Integration.Helper
             var json = $"{{\"name\": \"{newWorkspaceName}\"}}";
 
             var requestMessage = AuthorizedRequestBuilder.CreateRequest(
-                NetworkCredentials.WithApiToken(user.ApiToken), "https://toggl.space/api/v9/workspaces", HttpMethod.Post);
+                Credentials.WithApiToken(user.ApiToken), "https://toggl.space/api/v9/workspaces", HttpMethod.Post);
             requestMessage.Content = new StringContent(json, Encoding.UTF8, "application/json");
 
             using (var client = new HttpClient())
