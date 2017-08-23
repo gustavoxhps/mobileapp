@@ -2,7 +2,7 @@ namespace Toggl.Daneel.Tests.UI
 {
     public static class Credentials
     {
-        public const string Username = "arturseimanis@gmail.com";
-        public const string Password = "kjmnhuiopl098";
+        public const string Username = "{TOGGL_UI_TEST_USERNAME}";
+        public const string Password = "{TOGGL_UI_TEST_PASSWORD}";
     }
 }
