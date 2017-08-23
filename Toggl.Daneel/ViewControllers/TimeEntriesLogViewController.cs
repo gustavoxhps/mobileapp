@@ -61,7 +61,7 @@ namespace Toggl.Daneel.ViewControllers
                       .For(v => v.BindVisibility())
                       .To(vm => vm.IsEmpty)
                       .WithConversion(invertedVisibilityConverter);
-                      
+
             bindingSet.Bind(EmptyStateImageView)
                       .For(v => v.BindVisibility())
                       .To($"{nameof(TimeEntriesLogViewModel.IsEmpty)}&&!{nameof(TimeEntriesLogViewModel.IsWelcome)}")

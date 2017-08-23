@@ -29,7 +29,7 @@ namespace Toggl.Foundation.Tests.MvvmCross.ViewModels
         {
             [Theory]
             [ClassData(typeof(TwoParameterConstructorTestData))]
-            public void ThrowsIfTheArgumentIsNull(bool useDataSource, bool useNavigationService)
+            public void ThrowsIfAnyOfTheArgumentsIsNull(bool useDataSource, bool useNavigationService)
             {
                 var dataSource = useDataSource ? DataSource : null;
                 var navigationService = useNavigationService ? NavigationService : null;
