@@ -55,7 +55,7 @@ private string GetCommitHash()
 
 private TemporaryFileTransformation GetIntegrationTestsConfigurationTransformation()
 {   
-    const string path = "Toggl.Ultrawave.Tests.Integration/Configuration.cs";
+    const string path = "Toggl.Ultrawave.Tests.Integration/Helper/Configuration.cs";
     var commitHash = GetCommitHash(); 
     var filePath = GetFiles(path).Single();
     var file = TransformTextFile(filePath).ToString();
@@ -86,7 +86,7 @@ private TemporaryFileTransformation GetUITestsFileTransformation()
 
 private TemporaryFileTransformation GetIntegrationTestsCredentialsTransformation()
 {
-    const string path = "Toggl.Ultrawave.Tests.Integration/Credentials.cs";
+    const string path = "Toggl.Ultrawave.Tests.Integration/Helper/Credentials.cs";
     var starterUsername = EnvironmentVariable("TOGGL_INTEGRATION_TEST_STARTER_USERNAME");
     var starterPassword = EnvironmentVariable("TOGGL_INTEGRATION_TEST_STARTER_PASSWORD");
     var filePath = GetFiles(path).Single();
